@@ -1,0 +1,17 @@
+{
+  "name": "crc-all",
+  "version": "1.0.0",
+  "description": "Calculate Cyclic Redundancy Check (CRC) of different algorithms",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "crc",
+    "crc16",
+    "crc8",
+    "crc32"
+  ],
+  "author": "Maxim Zaytsev <zaytsev@mail.com>",
+  "license": "ISC"
+}
