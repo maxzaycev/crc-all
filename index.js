@@ -1,3 +1,5 @@
+'use strict';
+
 const algorythms = {
 	'crc8': (crcParams) => {
 		return (data) => {
@@ -19,14 +21,16 @@ const algorythms = {
 
 		    if (crcParams.refOut)
 		        data.forEach((d) => {
-		            crc = crcParams.array[(d ^ crc) & 0xFF] ^ (crc >> 8 & 0xFF);
+		            crc = crcParams.array[(d ^ crc) & 0xFF] ^ (crc >>> 8 & 0xFF);
 		        });
-		    else
+		    else //WRONG
 		        data.forEach((d) => {
-		            crc = crcParams.array[((crc >> 8) ^ d) & 0xFF] ^ (crc << 8);
+		            crc = crcParams.array[((crc >>> 8) ^ d) & 0xFF] ^ (crc << 8);
 		        });
 
 		    crc = crc ^ crcParams.xorOut;
+
+            crc &= 0xFFFF;
 
 		    return crc;
 		}
@@ -38,11 +42,11 @@ const algorythms = {
 
 		    if (crcParams.refOut)
 		        data.forEach((d) => {
-		            crc = crcParams.array[(d ^ crc) & 0xFF] ^ (crc >> 8 & 0xFFFFFF);
+		            crc = crcParams.array[(d ^ crc) & 0xFF] ^ (crc >>> 8 & 0xFFFFFF);
 		        });
-		    else
+		    else //WRONG
 		        data.forEach((d) => {
-		            crc = crcParams.array[((crc >> 24) ^ d) & 0xFF] ^ (crc << 8);
+		            crc = crcParams.array[((crc >>> 24) ^ d) & 0xFF] ^ (crc << 8);
 		        });
 
 		    crc = crc ^ crcParams.xorOut;
@@ -50,7 +54,7 @@ const algorythms = {
 		    return crc;
 		}
 	}
-}
+};
 
 function getCrcType(crcName){
 	return crcName.split('-', 1)[0];
@@ -58,7 +62,7 @@ function getCrcType(crcName){
 
 module.exports = (crcName) => {
 	let type = getCrcType(crcName);
-	let crcParams
+	let crcParams;
 
 	try {
 		crcParams = require('./' + type + '/' + crcName);
@@ -69,4 +73,4 @@ module.exports = (crcName) => {
 
 	return (crcParams && (typeof algorythms[type] === 'function')) ? 
 		algorythms[type](crcParams) : null;
-}
+};

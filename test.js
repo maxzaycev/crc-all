@@ -2,7 +2,7 @@ const fs = require('fs');
 const assert = require('assert');
 const moduleDir = './';
 
-const crcDirs = ['crc8/', 'crc16/', 'crc32/'];
+const crcDirs = ['crc32/'];
 
 let testCount = 0;
 let passCount = 0;
@@ -34,4 +34,4 @@ crcDirs.forEach((dir) => {
 	});
 });
 
-console.log(passCount, '/', testCount);
+console.log(passCount + ' / ' + testCount);
